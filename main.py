@@ -4,7 +4,7 @@ from utils import *
 
 """parsing and configuration"""
 
-def parse_args():
+def get_parser():
     desc = "Tensorflow implementation of U-GAT-IT"
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument('--phase', type=str, default='train', help='[train / test]')
@@ -47,7 +47,10 @@ def parse_args():
                         help='Directory name to save training logs')
     parser.add_argument('--sample_dir', type=str, default='samples',
                         help='Directory name to save the samples on training')
+    return parser
 
+def parse_args():
+    parser = get_parser()
     return check_args(parser.parse_args())
 
 """checking arguments"""
