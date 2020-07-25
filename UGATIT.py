@@ -600,9 +600,14 @@ class UGATIT(object) :
         print(" [*] Reading checkpoints...")
         checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
 
-        ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
-        if ckpt and ckpt.model_checkpoint_path:
-            ckpt_name = os.path.basename(ckpt.model_checkpoint_path)
+        ckpt_name = "UGATIT.model-2044000"
+        self.saver = tf.compat.v1.train.import_meta_graph(os.path.join(checkpoint_dir, '{}.meta'.format(ckpt_name)))
+        #self.saver.restore(self.sess, os.path.join(checkpoint_dir, ckpt_name))
+
+        #ckpt = tf.train.get_checkpoint_state(checkpoint_dir, "UGATIT.model-2044000")
+        if self.saver:
+        #if True:
+            #ckpt_name = os.path.basename(ckpt.model_checkpoint_path)
             self.saver.restore(self.sess, os.path.join(checkpoint_dir, ckpt_name))
             counter = int(ckpt_name.split('-')[-1])
             print(" [*] Success to read {}".format(ckpt_name))
@@ -685,4 +690,3 @@ class UGATIT(object) :
         fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
         save_images(fake_img, [1, 1], image_path)
         return image_path
-        

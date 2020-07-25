@@ -13,10 +13,8 @@ grpcio==1.27.2
 h5py==2.10.0
 importlib-metadata==1.6.1
 ipykernel==5.3.0
-ipython @ file:///tmp/build/80754af9/ipython_1592348391367/work
 ipython-genutils==0.2.0
 ipywidgets==7.5.1
-jedi @ file:///tmp/build/80754af9/jedi_1592841914522/work
 Jinja2==2.11.2
 jsonschema==3.2.0
 jupyter==1.0.0
@@ -28,9 +26,9 @@ Keras-Preprocessing==1.1.0
 Markdown==3.1.1
 MarkupSafe==1.1.1
 mistune==0.8.4
-mkl-fft==1.1.0
-mkl-random==1.1.1
-mkl-service==2.3.0
+#mkl-fft==1.1.0
+#mkl-random==1.1.1
+#mkl-service==2.3.0
 nbconvert==5.6.1
 nbformat==5.0.7
 notebook==6.0.3
@@ -45,20 +43,19 @@ pickleshare==0.7.5
 Pillow==7.1.2
 prometheus-client==0.8.0
 prompt-toolkit==3.0.5
-protobuf==3.12.3
+protobuf==3.12.2
 ptyprocess==0.6.0
 Pygments==2.6.1
 pyparsing==2.4.7
 pyrsistent==0.16.0
 python-dateutil==2.8.1
 pyzmq==19.0.1
-qtconsole @ file:///tmp/build/80754af9/qtconsole_1592848611704/work
 QtPy==1.9.0
 scipy==1.4.1
 Send2Trash==1.5.0
 six==1.15.0
 tensorboard==1.15.0
-tensorflow==1.15.0
+#tensorflow==1.15.0
 tensorflow-estimator==1.15.1
 termcolor==1.1.0
 terminado==0.8.3
@@ -71,3 +68,4 @@ Werkzeug==0.16.1
 widgetsnbextension==3.5.1
 wrapt==1.12.1
 zipp==3.1.0
+opencv-python
