@@ -1,16 +1,8 @@
-## U-GAT-IT &mdash; Official TensorFlow Implementation (ICLR 2020)
-### Unsupervised Generative Attentional Networks with Adaptive Layer-Instance Normalization for Image-to-Image Translation
-
-### Requirements
-See requirements.txt file
-
 ## Use
-1. Download the 204 epochs checkpoint (8Gb) and place it into a *checkpoint* at the root folder: https://www.dropbox.com/sh/63xqqqef0jtevmg/AADN7izdFHxueUbTSRBZrpffa?dl=0
-2. Install the packages: pip install -r requirements.txt
-3. Open and run the Jupyter Notebook: Test.ipynb
-4. To test your own picture, set the path to the file on the Jupyter Notebook
-
-
+1. Download checkpoint.zip (2 Gb) to the root directory
+2. Build the image with `docker-compose build`
+3. Create in and out directories as specified in docker-compose.yml
+4. Run with `docker-compose up`
 
 
 
