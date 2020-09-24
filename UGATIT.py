@@ -698,19 +698,30 @@ class UGATIT(object) :
         self.saver = tf.train.Saver()
         could_load, checkpoint_counter = self.load(self.checkpoint_dir)
 
-        before = dict([(f, None) for f in os.listdir(in_dir)])
         while True:
-            after = dict([(f, None) for f in os.listdir(in_dir)])
-            time.sleep (1)
-            added = [f for f in after if not f in before]
+            time.sleep(1)
 
-            for filename in added:
-                print(filename)
-                sample_file = os.path.join(in_dir, filename)
-                sample_image = np.asarray(load_test_data(sample_file, size=self.img_size))
-                image_path = os.path.join(out_dir,'{0}'.format(os.path.basename(sample_file)))
+            in_dirs = os.listdir(in_dir)
+            out_dirs = os.listdir(out_dir)
 
-                fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
-                save_images(fake_img, [1, 1], image_path)
+            for in_d in in_dirs:
+                if in_d not in out_dirs:
+                    os.mkdir(os.path.join(out_dir, in_d)
 
-            before = after
+                in_d = os.path.join(in_dir, in_d)
+                out_d = os.path.join(out_dir, in_d)
+
+
+                in_files = os.listdir(in_d)
+                out_files = os.listdir(out_d)
+
+                for in_f in in_files:
+                    if in_f in out_files:
+                        continue
+
+                    sample_file = os.path.join(in_d, in_f)
+                    sample_image = np.asarray(load_test_data(sample_file, size=self.img_size))
+                    image_path = os.path.join(out_d,'{0}'.format(os.path.basename(sample_file)))
+
+                    fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
+                    save_images(fake_img, [1, 1], image_path)
