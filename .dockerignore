@@ -1,1 +1,4 @@
-checkpoint/
+checkpoint
+*.zip
+.git
+.venv
