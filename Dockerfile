@@ -1,13 +1,4 @@
-FROM python:3.6 as base
-
-WORKDIR /app
-
-COPY checkpoint.zip .
-
-RUN unzip checkpoint.zip
-
-
-FROM base as looper
+FROM python:3.6 as looper
 
 COPY . .
 
@@ -21,4 +12,4 @@ ENV RESULT_DIR="/out"
 
 RUN mkdir $INPUT_DIR && mkdir $RESULT_DIR
 
-CMD ["python", "looper.py"]
+ENTRYPOINT ["get_ckpt_and_run.sh"]
