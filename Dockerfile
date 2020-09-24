@@ -6,6 +6,9 @@ RUN apt-get update \
 	    && apt-get -y install libglib2.0-0 libgl1-mesa-glx \
 	    && pip install -r requirements.txt
 
+
+RUN apt-get -y install default-jdk ffmpeg
+
 ENV INPUT_DIR="/in"
 ENV RESULT_DIR="/out"
 
@@ -18,4 +21,4 @@ WORKDIR /app
 COPY *.py ./
 COPY get_ckpt_and_run.sh .
 
-ENTRYPOINT ["get_ckpt_and_run.sh"]
+CMD ["bash", "get_ckpt_and_run.sh"]
