@@ -706,7 +706,7 @@ class UGATIT(object) :
 
             for in_d in in_dirs:
                 if in_d not in out_dirs:
-                    os.mkdir(os.path.join(out_dir, in_d)
+                    os.mkdir(os.path.join(out_dir, in_d))
 
                 in_d = os.path.join(in_dir, in_d)
                 out_d = os.path.join(out_dir, in_d)
