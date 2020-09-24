@@ -2,6 +2,7 @@ package v1.post
 
 import java.io.File
 import java.nio.file.Paths
+import java.util.UUID
 
 import play.api.libs.Files
 import scala.concurrent.ExecutionContext
@@ -26,39 +27,38 @@ class GifController @Inject()(val controllerComponents: ControllerComponents)(im
 
   def fileExists(name: String): Boolean = Seq("test", "-f", name).! == 0
 
-  private def splitGif(file: File): Unit = {
-    Seq("/bin/sh", "-c", s"rm $splitDir/*.png").! // Empty the splitDir before processing a new file
-    logger.info("Deleted split images")
+  private def splitGif(file: File): String = {
+    val hash = UUID.randomUUID().toString
+    val outputDirPath = s"$splitDir/$hash"
+    // Create directory using the hash value
+    java.nio.file.Files.createDirectories(Paths.get(outputDirPath))
     val pathToGif = file.toPath
     if (fileExists(pathToGif.toString)) {
-      s"ffmpeg -i ${pathToGif.toString} -vsync 0 $splitDir/output%03d.png -loglevel 16" .!
+      s"ffmpeg -i ${pathToGif.toString} -vsync 0 $outputDirPath/output%03d.png -loglevel 16" .!
       logger.info(s"Gif splitted")
       java.nio.file.Files.deleteIfExists(pathToGif)
     }
-  }
-
-  private def stitchGif(): Int = {
-    logger.info(s"Gif stitched")
-    s"ffmpeg -f image2 -i $splitDir/output%03d.png $stitchDir/$outputFileName -loglevel 16 -y" .!
+    hash
   }
 
   def upload: Action[MultipartFormData[Files.TemporaryFile]] = Action(parse.multipartFormData) { implicit request =>
-    request.body.file("name").foreach { case FilePart(key, filename, contentType, file, fileSize, dispositionType) =>
+    val outputHash = request.body.file("name").map { case FilePart(_, filename, contentType, file, fileSize, _) =>
       logger.info(s"Uploading $filename, contentType = $contentType, fileSize = $fileSize")
       splitGif(file)
     }
-    Ok(s"Success")
+    Ok(s"${outputHash.getOrElse("Failed")}")
   }
 
-  def download: Action[AnyContent] = Action { implicit request =>
-    if (stitchGif() == 0) {
-      val filePath = s"$stitchDir/$outputFileName"
+  def download(id: String): Action[AnyContent] = Action { implicit request =>
+    val stitched = s"ffmpeg -f image2 -i $stitchDir/$id/output%03d.png $stitchDir/$id/$outputFileName -loglevel 16 -y" .!
+    if (stitched == 0) {
+      val filePath = s"$stitchDir/$id/$outputFileName"
       if (fileExists(filePath))
         Ok.sendFile(new java.io.File(filePath))
       else
-        Ok("Processing")
+        Ok("Err")
     } else {
-      Ok("Err")
+      Ok("Processing")
     }
   }
 
