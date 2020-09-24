@@ -600,7 +600,8 @@ class UGATIT(object) :
         print(" [*] Reading checkpoints...")
         checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
 
-        ckpt_name = "UGATIT.model-2044000"
+        #ckpt_name = "UGATIT.model-2044000"
+        ckpt_name = "UGATIT_light.model-214000"
         self.saver = tf.compat.v1.train.import_meta_graph(os.path.join(checkpoint_dir, '{}.meta'.format(ckpt_name)))
         #self.saver.restore(self.sess, os.path.join(checkpoint_dir, ckpt_name))
 
@@ -690,3 +691,26 @@ class UGATIT(object) :
         fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
         save_images(fake_img, [1, 1], image_path)
         return image_path
+
+    def loop_on_input(self, in_dir, out_dir):
+        tf.global_variables_initializer().run()
+
+        self.saver = tf.train.Saver()
+        could_load, checkpoint_counter = self.load(self.checkpoint_dir)
+
+        before = dict([(f, None) for f in os.listdir(in_dir)])
+        while True:
+            after = dict([(f, None) for f in os.listdir(in_dir)])
+            time.sleep (1)
+            added = [f for f in after if not f in before]
+
+            for filename in added:
+                print(filename)
+                sample_file = os.path.join(in_dir, filename)
+                sample_image = np.asarray(load_test_data(sample_file, size=self.img_size))
+                image_path = os.path.join(out_dir,'{0}'.format(os.path.basename(sample_file)))
+
+                fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
+                save_images(fake_img, [1, 1], image_path)
+
+            before = after
