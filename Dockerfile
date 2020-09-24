@@ -11,6 +11,10 @@ ENV RESULT_DIR="/out"
 
 RUN mkdir $INPUT_DIR && mkdir $RESULT_DIR
 
+ADD gif-to-anime /gif-to-anime
+
+WORKDIR /app
+
 COPY *.py ./
 COPY get_ckpt_and_run.sh .
 
