@@ -12,6 +12,8 @@ else
 		CHECKPOINT_URL="https://jacob-machine-unlearning.s3.amazonaws.com/checkpoints.zip"
 
 		echo "Downloading checkpoint file"
+		mkdir $CHECKPOINT_DIR
+		cd $CHECKPOINT_DIR
 		curl $CHECKPOINT_URL -o $CHECKPOINT_FILE
 		unzip $CHECKPOINT_FILE
 	fi
