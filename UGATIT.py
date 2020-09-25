@@ -722,8 +722,8 @@ class UGATIT(object) :
                 print(in_d)
                 print(out_d)
 
-                in_files = os.listdir(in_d)
-                out_files = os.listdir(out_d)
+                in_files = sorted(os.listdir(in_d))
+                out_files = sorted(os.listdir(out_d))
 
                 for in_f in in_files:
                     print(f"generating {in_f}")
