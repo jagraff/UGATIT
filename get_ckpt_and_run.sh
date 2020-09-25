@@ -16,6 +16,7 @@ else
 		cd $CHECKPOINT_DIR
 		curl $CHECKPOINT_URL -o $CHECKPOINT_FILE
 		unzip $CHECKPOINT_FILE
+		cd ..
 	fi
 fi
 
