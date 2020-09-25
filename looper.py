@@ -6,7 +6,7 @@ from utils import *
 
 class FakeArgs():
     phase='test'
-    light=True
+    light=False
     dataset='selfie2anime'
 
     epoch=100

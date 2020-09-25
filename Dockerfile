@@ -9,8 +9,8 @@ RUN apt-get update \
 
 RUN apt-get -y install default-jdk ffmpeg
 
-ENV INPUT_DIR="/in"
-ENV RESULT_DIR="/out"
+ENV INPUT_DIR="/tmp/UnProcessed"
+ENV RESULT_DIR="/tmp/Processed"
 
 RUN mkdir $INPUT_DIR && mkdir $RESULT_DIR
 

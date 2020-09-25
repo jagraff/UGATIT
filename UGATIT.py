@@ -600,8 +600,8 @@ class UGATIT(object) :
         print(" [*] Reading checkpoints...")
         checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
 
-        #ckpt_name = "UGATIT.model-2044000"
-        ckpt_name = "UGATIT_light.model-214000"
+        ckpt_name = "UGATIT.model-2044000"
+        #ckpt_name = "UGATIT_light.model-214000"
         self.saver = tf.compat.v1.train.import_meta_graph(os.path.join(checkpoint_dir, '{}.meta'.format(ckpt_name)))
         #self.saver.restore(self.sess, os.path.join(checkpoint_dir, ckpt_name))
 
@@ -698,6 +698,8 @@ class UGATIT(object) :
         self.saver = tf.train.Saver()
         could_load, checkpoint_counter = self.load(self.checkpoint_dir)
 
+        print("ready to loop")
+
         while True:
             time.sleep(1)
 
@@ -705,18 +707,25 @@ class UGATIT(object) :
             out_dirs = os.listdir(out_dir)
 
             for in_d in in_dirs:
+                print(in_d)
                 if in_d not in out_dirs:
                     os.mkdir(os.path.join(out_dir, in_d))
 
-                in_d = os.path.join(in_dir, in_d)
                 out_d = os.path.join(out_dir, in_d)
+                in_d = os.path.join(in_dir, in_d)
 
+                print(in_dir, out_dir)
+
+                print(in_d)
+                print(out_d)
 
                 in_files = os.listdir(in_d)
                 out_files = os.listdir(out_d)
 
                 for in_f in in_files:
+                    print(f"generating {in_f}")
                     if in_f in out_files:
+                        print(f"already generated")
                         continue
 
                     sample_file = os.path.join(in_d, in_f)
@@ -725,3 +734,5 @@ class UGATIT(object) :
 
                     fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
                     save_images(fake_img, [1, 1], image_path)
+
+                    print(f"saved to {image_path}")

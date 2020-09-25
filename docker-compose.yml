@@ -3,6 +3,9 @@ services:
     looper:
         build:
             context: .
+        command:
+            "/bin/bash -c 'while true; do sleep 1; done'"
         volumes:
-            - /tmp/in_dir/:/in
-            - /tmp/out_dir/:/out
+            - ./:/app
+        ports:
+            - "9000:9000"
