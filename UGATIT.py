@@ -600,8 +600,11 @@ class UGATIT(object) :
         print(" [*] Reading checkpoints...")
         checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
 
-        ckpt_name = "UGATIT.model-2044000"
-        #ckpt_name = "UGATIT_light.model-214000"
+        if not self.light:
+            ckpt_name = "UGATIT.model-2044000"
+        else:
+            ckpt_name = "UGATIT_light.model-214000"
+
         self.saver = tf.compat.v1.train.import_meta_graph(os.path.join(checkpoint_dir, '{}.meta'.format(ckpt_name)))
         #self.saver.restore(self.sess, os.path.join(checkpoint_dir, ckpt_name))
 

@@ -9,7 +9,7 @@ else
 	if [ -f "$CHECKPOINT_FILE" ]; then
 		echo "Found $CHECKPOINT_FILE; skipping download"
 	else
-		CHECKPOINT_URL="https://jacob-machine-unlearning.s3.amazonaws.com/checkpoint.zip"
+		CHECKPOINT_URL="https://jacob-machine-unlearning.s3.amazonaws.com/checkpoints.zip"
 
 		echo "Downloading checkpoint file"
 		curl $CHECKPOINT_URL -o $CHECKPOINT_FILE
